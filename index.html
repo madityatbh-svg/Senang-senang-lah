@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ular Tangga Mesra</title>
+<style>
+:root{--bg:#fff6f4;--fg:#3a1f2b;--card:#fff;--ac:#c2185b;--mut:#8a6a76;--ln:#f1d3dc;--l1:#fde8ee;--l2:#fcd0dc;--l3:#f9b3c6;
+box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1015;--fg:#f8e6ec;--card:#2a181f;--ac:#ff6fa3;--mut:#c49aa9;--ln:#4a2a36;--l1:#2f1a22;--l2:#40222e;--l3:#582c3d}}
+:root[data-theme="dark"]{--bg:#1c1015;--fg:#f8e6ec;--card:#2a181f;--ac:#ff6fa3;--mut:#c49aa9;--ln:#4a2a36;--l1:#2f1a22;--l2:#40222e;--l3:#582c3d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:560px;margin:0 auto;padding:14px}
+h1{font-size:1.4rem;margin:4px 0;color:var(--ac);text-align:center}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:14px;margin:10px 0}
+.note{font-size:.85rem;color:var(--mut)}
+input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--fg);font-size:1rem;text-transform:uppercase}
+button{padding:11px 14px;border-radius:10px;border:0;background:var(--ac);color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
+button.alt{background:transparent;color:var(--ac);border:1px solid var(--ac)}
+button:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;margin-top:10px}.row>*{flex:1}
+.board{display:grid;grid-template-columns:repeat(10,1fr);gap:2px}
+.c{aspect-ratio:1;border-radius:5px;font-size:.55rem;line-height:1.1;padding:2px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.c b{font-weight:600;color:var(--mut)}.c i{font-style:normal;font-size:.8rem;position:absolute;right:1px;bottom:0}
+.l1{background:var(--l1)}.l2{background:var(--l2)}.l3{background:var(--l3)}
+.turn{text-align:center;font-weight:700}
+.big{font-size:1.15rem}
+.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--l3);color:var(--fg)}
+</style></head><body><main>
+<h1>🐍 Ular Tangga Mesra 🪜</h1>
+<div id="app"></div>
+</main>
+<script>
+const SN={99:41,95:75,89:53,76:58,66:45,64:60,54:31,47:26,40:19,23:8},LD={4:25,9:31,13:46,21:42,27:57,33:49,36:44,50:69,62:81,71:91,74:92};
+const NM={h:"Suami",w:"Istri"},TK={h:"🔵",w:"🌸"},LN={1:"Hangat 💕",2:"Mesra 🔥",3:"Variasi 🌶️"};
+const T={1:["Momen paling romantis kita menurutmu yang mana?","Bagian dariku yang paling kamu suka dipandang?","Kapan terakhir kamu begitu rindu padaku?","Sentuhan seperti apa yang langsung menenangkanmu?","Apa yang pertama kamu pikirkan saat melihatku dulu?","Panggilan sayang apa dariku yang paling kamu suka?","Suasana apa yang membuatmu paling dekat denganku?","Kenangan mesra apa yang sering kamu ulang dalam ingatan?"],
+2:["Sentuhan atau ciuman di mana yang paling membuatmu luluh?","Ceritakan fantasi romantis yang pernah kamu bayangkan bersamaku.","Suasana apa (lampu, musik, aroma) yang paling membuatmu “mood”?","Apa yang kamu suka dari caraku menggodamu?","Pakaianku yang mana yang paling membuatmu terpesona?","Malam bersama kita yang paling berkesan buatmu yang mana?","Hal kecil apa dariku yang diam-diam membuatmu bergairah?","Seperti apa kamu membayangkan pertemuan kita berikutnya?"],
+3:["Gaya atau variasi bercinta apa yang paling ingin kamu coba bersamaku, dan kenapa?","Gaya apa yang paling nyaman buatmu dan apa yang membuatnya spesial?","Lebih suka suasana lembut dan pelan, atau penuh gairah dan spontan? Jelaskan.","Peran (roleplay) apa yang ingin kamu mainkan bersamaku?","Tempat atau waktu berbeda apa di rumah kita yang ingin kamu coba?","Satu hal baru apa yang ingin kamu minta dariku tanpa malu?","Bagian pemanasan (foreplay) mana yang paling kamu nikmati?","Apa yang bisa kita lakukan agar lebih bervariasi tapi tetap nyaman?"]};
+const D={1:["Kirim voice note berisi tiga hal yang kamu rindukan dariku.","Tatap kamera 20 detik tanpa bicara, lalu tersenyum.","Nyanyikan sepotong lagu cinta untukku.","Tulis puisi dua baris tentang aku sekarang juga.","Bisikkan “aku sayang kamu” dengan nada paling lembut.","Tunjukkan benda di sekitarmu yang mengingatkanmu padaku.","Kirim selfie terbaikmu dengan pesan manis.","Ceritakan rencana kencan impian kita saat bertemu."],
+2:["Kirim pesan menggoda tiga kalimat, tanpa kata vulgar.","Pakai pakaian favoritku padamu dan tunjukkan lewat video.","Ceritakan dengan kata-kata pijatan lambat yang akan kamu berikan saat kita bertemu.","Cium punggung tanganmu sendiri sambil menatap kamera.","Bisikkan sesuatu yang membuatku merinding selama 30 detik.","Ceritakan skenario kencan kejutan yang berakhir mesra.","Putar lagu sensual dan menari pelan satu lagu untukku.","Tulis tiga hal yang ingin kamu lakukan bersamaku akhir pekan nanti."],
+3:["Ceritakan skenario roleplay pilihanmu dengan suara berbisik lewat voice note.","Gambarkan malam impian kita: pelan dan sensual, lengkap urutannya.","Buat “menu” tiga suasana (lembut, menggoda, spontan) dan bintangi favoritmu.","Beri instruksi sentuhan seolah memijatku, langkah demi langkah.","Rancang permainan mata tertutup untuk pertemuan berikutnya dan sebutkan aturannya.","Rekam bisikan tentang gaya favoritmu (suara saja).","Pilih satu variasi baru untuk dicoba saat bertemu, lalu sepakati bersama.","Beri aku nama manja baru dan ceritakan alasannya."]};
+T[1].push("Lagu apa yang selalu mengingatkanmu padaku?","Janji kecil apa yang ingin kamu tepati padaku tahun ini?","Hal apa dariku yang dulu kamu anggap biasa, kini kamu cintai?","Tempat paling indah mana yang ingin kita datangi berdua?");
+D[1].push("Ceritakan hari terbaik kita dalam tiga kalimat sambil tersenyum.","Peluk bantal seolah itu aku dan ucapkan satu kalimat manis.","Susun tulisan “aku rindu” dari benda di sekitarmu dan tunjukkan.","Kirim foto sudut favoritmu di rumah lalu bayangkan aku di sana.");
+T[2].push("Seberapa suka kamu dipeluk dari belakang? Ceritakan alasannya.","Kata apa yang paling membuatmu berdebar jika kubisikkan?","Momen kita mana yang paling membuatmu ingin waktu berhenti?","Bagian mana dari pertemuan kita yang paling kamu tunggu?");
+D[2].push("Kirim voice note satu menit berisi bisikan rindu, tanpa kata vulgar.","Tunjukkan senyum paling menggoda dan tahan 10 detik.","Tulis surat singkat tentang malam yang ingin kamu habiskan denganku.","Ganti ke pakaian tidur favoritmu dan tunjukkan lewat video.");
+T[3].push("Pelan dan lembut atau intens dan cepat: mana yang ingin kamu coba lebih sering?","Ceritakan fantasi yang kamu simpan dan syarat agar kamu nyaman mencobanya.","Area atau sentuhan mana yang ingin kamu jelajahi lebih jauh dariku?","Apa isyarat kita bila ingin melambat atau berhenti?");
+D[3].push("Tentukan bersama satu “tema malam” (sensual, romantis, atau petualang) untuk pertemuan berikutnya.","Bacakan kalimat paling mesra yang kamu bayangkan untuk kita, dengan suara pelan.","Buat daftar tiga variasi gaya yang ingin dicoba dan minta pasanganmu mengurutkannya.","Sepakati kata sandi “lanjut / pelan / berhenti” dan artinya.");
+const lvl=n=>n<=33?1:n<=66?2:3,rnd=a=>a[Math.floor(Math.random()*a.length)];
+let db=null,ref=null,code="",role=null,S=null,joined=false,err="";
+const init=()=>({pos:{h:1,w:1},turn:"h",phase:"roll",dice:0,msg:"Suami mulai. Lempar dadu!",card:null,type:null,max:3,custom:[]});
+const can=()=>S&&(!ref&&role==="local"||role===S.turn);
+function save(p){S={...S,...p};render();if(ref)ref.set(S).catch(e=>{err="Gagal sinkron: "+(e.message||e.code);render()})}
+function roll(){if(!can()||S.phase!=="roll")return;const t=S.turn,d=1+Math.floor(Math.random()*6),p=S.pos[t];let n=p+d,m=NM[t]+" melempar "+d;
+if(n>100){n=p;m+=" — butuh angka pas, tetap di "+p}else if(LD[n]){m+=" → tangga! naik ke "+LD[n]+" 🪜";n=LD[n]}else if(SN[n]){m+=" → ular! turun ke "+SN[n]+" 🐍";n=SN[n]}else m+=" → petak "+n;
+const pos={...S.pos,[t]:n};n===100?save({pos,dice:d,phase:"won",msg:"🎉 "+NM[t]+" sampai di 100! Kalian berdua menang — saatnya hadiah mesra."}):save({pos,dice:d,phase:"pick",msg:m})}
+function pick(k){if(!can()||S.phase!=="pick")return;const L=Math.min(lvl(S.pos[S.turn]),S.max||3),pool=(k==="T"?T:D)[L].concat((S.custom||[]).filter(c=>c.k===k).map(c=>c.t));save({phase:"do",type:k,card:rnd(pool)})}
+function addC(k){const v=document.getElementById("ct").value.trim();if(!v)return;save({custom:[...(S.custom||[]),{k,t:v.slice(0,160)}]})}
+function settings(){const m=S.max||3;return `<div class="card"><b>⚙️ Tingkat keintiman maksimal</b><div class="row">${[1,2,3].map(i=>`<button class="${m===i?"":"alt"}" onclick="save({max:${i}})">${LN[i]}</button>`).join("")}</div><p class="note">Kartu tidak akan melebihi tingkat ini di petak mana pun. Berlaku untuk berdua.</p><b>✍️ Kartu buatan sendiri</b><input id="ct" style="text-transform:none;margin-top:6px" placeholder="Tulis pertanyaan atau tantangan kalian"><div class="row"><button class="alt" onclick="addC('T')">+ Truth</button><button class="alt" onclick="addC('D')">+ Dare</button></div><p class="note">${(S.custom||[]).length} kartu buatan sendiri ikut diacak.</p></div>`}
+function done(skip){if(!can()||S.phase!=="do")return;const t=S.turn==="h"?"w":"h";save({turn:t,phase:"roll",card:null,type:null,msg:(skip?NM[S.turn]+" melewati kartu (tidak apa-apa). ":"")+"Giliran "+NM[t]+"."})}
+async function join(){code=document.getElementById("code").value.replace(/[^A-Za-z0-9]/g,"").toUpperCase();if(code.length<3){err="Kode minimal 3 huruf/angka";return render()}
+if(!role)role="h";joined=true;
+if(!db){role="local";S=init();return render()}
+try{ref=db.doc("games/"+code);const s=await ref.get();if(!s.exists)await ref.set(init());ref.onSnapshot(sn=>{if(sn.exists){S=sn.data();render()}},e=>{err="Koneksi bermasalah: "+(e.message||e.code);render()})}catch(e){err="Tidak bisa terhubung ("+(e.message||e.code)+"). Pastikan kamu punya akses untuk berpartisipasi.";joined=false;render()}}
+function board(){let h="";for(let r=9;r>=0;r--)for(let c=0;c<10;c++){const n=r*10+(r%2?9-c:c)+1;let tk="";if(S.pos.h===n)tk+=TK.h;if(S.pos.w===n)tk+=TK.w;
+h+=`<div class="c l${lvl(n)}"><b>${n}</b>${LD[n]?"🪜"+LD[n]:SN[n]?"🐍"+SN[n]:""}<i>${tk}</i></div>`}return `<div class="board">${h}</div>`}
+function render(){const a=document.getElementById("app");
+if(!joined||!S){a.innerHTML=`<div class="card"><p class="note">Khusus pasangan suami istri dewasa yang saling setuju. Semua kartu <b>boleh dilewati</b> kapan saja tanpa alasan, dan permainan boleh dihentikan jika salah satu tidak nyaman.</p>
+<p><b>Main jarak jauh:</b> keduanya buka halaman ini, masukkan <b>kode ruang yang sama</b>, pilih peran masing-masing. Nyalakan video call (WhatsApp/Zoom) di samping agar seru.</p>
+<input id="code" placeholder="Kode ruang, mis. CINTA24" maxlength="12" value="${code}">
+<div class="row"><button class="alt" onclick="role='h';this.style.outline='3px solid var(--ac)';this.nextElementSibling.style.outline=''">🔵 Saya Suami</button><button class="alt" onclick="role='w';this.style.outline='3px solid var(--ac)';this.previousElementSibling.style.outline=''">🌸 Saya Istri</button></div>
+<div class="row"><button onclick="join()">Mulai / Gabung</button></div>
+${db?"":`<p class="note">Mode online belum aktif di tampilan ini; permainan berjalan bergantian di satu perangkat.</p>`}<p class="note" style="color:var(--ac)">${err}</p></div>`;return}
+const t=S.turn,me=can(),over=S.phase==="won";
+let ctl="";
+if(over)ctl=`<button onclick="save({...init(),max:S.max,custom:S.custom})">Main lagi</button>`;
+else if(S.phase==="roll")ctl=`<button ${me?"":"disabled"} onclick="roll()">🎲 Lempar dadu</button>`;
+else if(S.phase==="pick")ctl=`<div class="row"><button ${me?"":"disabled"} onclick="pick('T')">💬 Truth</button><button ${me?"":"disabled"} onclick="pick('D')">🔥 Dare</button></div>`;
+else ctl=`<div class="card" style="background:var(--l2)"><span class="tag">${S.type==="T"?"Truth":"Dare"} · ${LN[Math.min(lvl(S.pos[t]),S.max||3)]}</span><p class="big">${S.card}</p><div class="row"><button ${me?"":"disabled"} onclick="done(false)">✓ Selesai</button><button class="alt" ${me?"":"disabled"} onclick="done(true)">Lewati</button></div></div>`;
+a.innerHTML=`<div class="note" style="text-align:center">Ruang <b>${code}</b> · Kamu: ${role==="local"?"bergantian":NM[role]} · 🔵 Suami ${S.pos.h} · 🌸 Istri ${S.pos.w}</div>
+<div class="card"><div class="turn">${over?"Selesai":(me||role==="local"?"Giliranmu, ":"Menunggu ")+NM[t]}  ${TK[t]}</div><p style="text-align:center;margin:6px 0">${S.msg}</p>${ctl}</div>
+${board()}${settings()}<p class="note" style="text-align:center">Warna petak: ${LN[1]} · ${LN[2]} · ${LN[3]} (makin ke atas makin intim)</p><p class="note" style="color:var(--ac)">${err}</p>`}
+(async()=>{render();try{if(window.claude)db=await claude.use("db")}catch(e){db=null}render()})();
+</script></body></html>
